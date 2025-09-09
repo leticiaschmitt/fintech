@@ -40,8 +40,19 @@ public class Categoria {
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
     public String getCorHex() { return corHex; }
-    public void setCorHex(String corHex) { this.corHex = corHex; }
+    public void setCorHex(String corHex) {
+        if (corHex == null || !corHex.matches("^#[0-9A-Fa-f]{6}$")) {
+            System.out.println("Cor inválida para categoria '" + nome + "'. Use formato #RRGGBB.");
+        } else {
+            this.corHex = corHex;
+        }
+    }
     public TipoMovimentacao getTipo() { return tipo; }
     public void setTipo(TipoMovimentacao tipo) { this.tipo = tipo; }
     public boolean isAtiva() { return ativa; }
+
+    @Override
+    public String toString() {
+        return "Categoria{nome='" + nome + "', tipo=" + tipo + ", cor='" + corHex + "', ativa=" + ativa + "}";
+    }
 }
