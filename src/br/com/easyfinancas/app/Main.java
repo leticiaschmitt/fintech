@@ -16,39 +16,32 @@ public class Main {
         catEntrada.cadastrar();
         catDespesa.cadastrar();
 
-        Conta conta = new Conta("0001-9", usuario);
+        Conta conta1 = new ContaCorrente("0001-9", usuario);
+        Conta conta2 = new ContaPoupanca("0002-1", usuario);
 
         Movimentacao m1 = new Movimentacao(
-                "M001",
-                TipoMovimentacao.ENTRADA,
-                new BigDecimal("3500.00"),
-                LocalDate.now(),
-                "Salário do mês",
-                catEntrada
-        );
-
+                "M001", TipoMovimentacao.ENTRADA, new BigDecimal("3500.00"),
+                LocalDate.now(), "Salário do mês", catEntrada);
         Movimentacao m2 = new Movimentacao(
-                "M002",
-                TipoMovimentacao.DESPESA,
-                new BigDecimal("1200.00"),
-                LocalDate.now(),
-                "Aluguel",
-                catDespesa
-        );
+                "M002", TipoMovimentacao.DESPESA, new BigDecimal("1200.00"),
+                LocalDate.now(), "Aluguel", catDespesa);
 
         m1.registrar();
         m2.registrar();
 
-        conta.adicionarMovimentacao(m1);
-        conta.adicionarMovimentacao(m2);
-        conta.calcularSaldo();
-        conta.exibirExtrato();
+        conta1.adicionarMovimentacao(m1);
+        conta1.adicionarMovimentacao(m2);
+        conta1.calcularSaldo();
+        conta1.exibirExtrato();
+
+        conta1.aplicarAtualizacaoMensal();
+        conta2.aplicarAtualizacaoMensal();
 
         RelatorioService rel = new RelatorioService();
-        rel.imprimirExtratoDetalhado(conta);
-        rel.calcularTotaisPorTipo(conta);
-        rel.gerarResumoDia(conta, LocalDate.now());
-        rel.exportarCsv(conta);
+        rel.imprimirExtratoDetalhado(conta1);
+        rel.calcularTotaisPorTipo(conta1);
+        rel.gerarResumoDia(conta1, LocalDate.now());
+        rel.exportarCsv(conta1);
 
         MetaFinanceira meta = new MetaFinanceira(
                 "Reserva de emergência",
@@ -56,7 +49,7 @@ public class Main {
                 LocalDate.of(2025, 12, 31)
         );
         meta.exibirMeta();
-        meta.verificarProgresso(conta.getSaldo());
+        meta.verificarProgresso(conta1.getSaldo());
 
         System.out.println("Fim da simulação.");
     }

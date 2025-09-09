@@ -21,7 +21,7 @@ public class MetaFinanceira {
     }
 
     public void verificarProgresso(BigDecimal saldoAtual) {
-        System.out.println("Progresso da meta '" + descricao + "': saldo atual = " 
+        System.out.println("Progresso da meta '" + descricao + "': saldo atual = "
                 + brl(saldoAtual) + " de " + brl(valorObjetivo));
     }
 

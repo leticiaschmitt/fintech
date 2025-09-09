@@ -16,12 +16,15 @@ public class Movimentacao {
     public Movimentacao(String id, TipoMovimentacao tipo, BigDecimal valor, LocalDate data, String descricao, Categoria categoria) {
         this.id = id;
         this.tipo = tipo;
-        this.valor = valor;
-        this.data = data;
+        this.valor = (valor == null ? BigDecimal.ZERO : valor.abs());
+        this.data = (data == null ? LocalDate.now() : data);
         this.descricao = descricao;
         this.categoria = categoria;
 
-        if (valor == null || valor.signum() <= 0) {
+        if (tipo == null) {
+            System.out.println("Tipo obrigatório na movimentação '" + id + "'.");
+        }
+        if (this.valor.signum() <= 0) {
             System.out.println("Valor inválido para movimentação '" + id + "'. Deve ser > 0.");
         }
     }
@@ -44,9 +47,9 @@ public class Movimentacao {
     public TipoMovimentacao getTipo() { return tipo; }
     public void setTipo(TipoMovimentacao tipo) { this.tipo = tipo; }
     public BigDecimal getValor() { return valor; }
-    public void setValor(BigDecimal valor) { this.valor = valor; }
+    public void setValor(BigDecimal valor) { this.valor = (valor == null ? BigDecimal.ZERO : valor.abs()); }
     public LocalDate getData() { return data; }
-    public void setData(LocalDate data) { this.data = data; }
+    public void setData(LocalDate data) { this.data = (data == null ? LocalDate.now() : data); }
     public String getDescricao() { return descricao; }
     public void setDescricao(String descricao) { this.descricao = descricao; }
     public Categoria getCategoria() { return categoria; }

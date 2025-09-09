@@ -2,7 +2,9 @@ package br.com.easyfinancas.service;
 
 import br.com.easyfinancas.model.Conta;
 import br.com.easyfinancas.model.Movimentacao;
+import br.com.easyfinancas.model.TipoMovimentacao;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.Locale;
@@ -18,7 +20,24 @@ public class RelatorioService {
     }
 
     public void calcularTotaisPorTipo(Conta conta) {
-        System.out.println("Calculando totais por tipo (ENTRADA/CUSTO/DESPESA) para a conta " + conta.getNumero());
+        BigDecimal totEntrada = BigDecimal.ZERO;
+        BigDecimal totCusto   = BigDecimal.ZERO;
+        BigDecimal totDespesa = BigDecimal.ZERO;
+
+        for (Movimentacao m : conta.getHistorico()) {
+            if (m.getTipo() == TipoMovimentacao.ENTRADA) {
+                totEntrada = totEntrada.add(m.getValor());
+            } else if (m.getTipo() == TipoMovimentacao.CUSTO) {
+                totCusto = totCusto.add(m.getValor());
+            } else if (m.getTipo() == TipoMovimentacao.DESPESA) {
+                totDespesa = totDespesa.add(m.getValor());
+            }
+        }
+
+        NumberFormat brl = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        System.out.println("Totais por tipo → ENTRADA: " + brl.format(totEntrada)
+                + " | CUSTO: " + brl.format(totCusto)
+                + " | DESPESA: " + brl.format(totDespesa));
     }
 
     public void exportarCsv(Conta conta) {
